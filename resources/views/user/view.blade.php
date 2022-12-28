@@ -34,35 +34,17 @@
                      <table id="w0" class="table table-striped table-bordered detail-view">
                       <tbody>
                         <tr>
-                          <th>ID</th>
-                          <td colspan="1">{{$model->id}}</td>
-                          <th>Full Name</th>
-                          <td colspan="1">{{$model->full_name}}</td>
+                          <th>Question</th>
+                          
+                          <th>Answer</th>
+                          
                         </tr>
-                                    <tr>
-                                      <th>Email</th>
-                                      <td colspan="1"><a href="mailto:jashely775@gmail.com">{{$model->email}}</a></td>
-                                      <th>Role</th>
-                                      <td colspan="1">{{$model->getRole()}}</td>
-                                    </tr>
-                                   
-                                    
-                                   <tr>
-                                    <th>Status</th>
-                                      <td colspan="1"><span class="badge badge-light-{{$model->getStatusBadge()}}">{{$model->getStatus()}}</span>
-</td>
-                                      <th>Created At</th>
-                                      <td colspan="1">{{$model->created_at}}</td>
-                                      
-                                     
-                                    </tr>
-                                     <tr>
-                                     
-                                      <th>Updated At</th>
-                                      <td colspan="1">{{$model->updated_at}}</td>
-                                     
-                                    </tr>
-
+                          @foreach($model->answers as $key=>$value)
+                            <tr>
+                                <td>{{$value->questions->body}}</td>
+                                <td>{{$value->answer}}</td>
+                            </tr>
+                          @endforeach
                           
 
                                     
@@ -71,12 +53,8 @@
                            <br>
 
                            <div class="row"> 
-                            <div class="col-md-6">
-                            <a id="tool-btn-manage"  class="btn btn-primary text-right" href="{{route('users.index')}}" title="Back">Back</a>
-                            </div>
-                             <div class="col-md-6">
-                            <a href="{{route('user.changeStatus',$model->id)}}" class="active_status btn btn-{{($model->status ==1)?'danger':'primary'}}"  data-id = {{$model->id}} title="Manage">{{($model->status == 1)?"Inactive":"Active"}}</i></a>
-                            </div>
+                          
+                            
                 </div>
 
 

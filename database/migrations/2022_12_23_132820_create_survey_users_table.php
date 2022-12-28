@@ -18,6 +18,7 @@ class CreateSurveyUsersTable extends Migration
             $table->string("phn_number");
             $table->string("name")->nullable();
             $table->string("country")->nullable();
+            $table->string("language")->nullable();
             $table->integer("currnet_question")->default(0)->nullable();
             
             $table->timestamps();

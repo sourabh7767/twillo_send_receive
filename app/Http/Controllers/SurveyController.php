@@ -15,18 +15,52 @@ class SurveyController extends Controller
 {
     public function responses(Request $request){
        // echo "here";
+       
        Log::info($request->all());
        $response = new MessagingResponse();
        $userRes = SurveyUser::where("phn_number",$request->From)->first();
        if($userRes){
-           if($userRes->currnet_question == 1){
+           if($userRes->currnet_question == 10 || $userRes->currnet_question == 9){ // when last question is done or no is answered
+            $response->message("Survey Completed");
+            return response($response);   
+           }
+           if($userRes->currnet_question == 1){ // on this we save name
                $userRes->name = $request->input(['Body']);
                $userRes->save();
+           }
+           
+           if($userRes->currnet_question == 3){
+               if(in_array(strtolower($request->Body),["english","spanish"])){
+                   $userRes->language = $request->input(['Body']);
+                    $userRes->save();
+               }else{
+                   $response->message(" Invalid Response.");
+                   return response($response);
+               }
            }
            $currentQuestion = Question::where("question_number",$userRes->currnet_question)->first();
            $options = QuestionOption::where("question_id",$currentQuestion->id)->pluck("answer","answer")->toArray();
            if($options){
-                if(in_array($request->Body,$options)){
+                if(in_array(strtolower($request->Body),$options)){
+                   // echo "here";
+                    if(strtolower($request->Body) == "no"){
+                       // echo "no";die;
+                        $nextNumber = $userRes->currnet_question = 10;
+                        $userRes->save();
+                    //     $question = Question::where("question_number",$nextNumber)->first();
+                        
+                    //     $userResNew = SurveyUser::where("phn_number",$request->From)->first();
+                    //   if($userResNew->language && strtolower($userResNew->language) == "spanish"){
+                    //         $response->message($question->spnish_body);
+                    //   }else{
+                    //         $response->message($question->body);    
+                    //   }
+                    }else{
+                      //  echo "yes";die;
+                        $nextNumber = $userRes->currnet_question = $userRes->currnet_question+1;
+                        $userRes->save();
+                    }
+                    
                     QuestionResponse::create([
                                 'answer' => $request->input(['Body']),
                                 'question_id' => $currentQuestion->id,
@@ -45,14 +79,22 @@ class SurveyController extends Controller
                                 "survey_user_id" =>$userRes->id,
                                 'messages_id'=>$request->input(['MessageSid'])
                             ]);
+                $nextNumber = $userRes->currnet_question = $userRes->currnet_question+1;
+                $userRes->save();            
            }
            
-           $nextNumber = $userRes->currnet_question = $userRes->currnet_question+1;
-           $userRes->save();
+           
            
            $number = $nextNumber;
            $question = Question::where("question_number",$number)->first();
-           $response->message($question->body);
+           
+           $userResNew = SurveyUser::where("phn_number",$request->From)->first();
+           if($userResNew->language && strtolower($userResNew->language) == "spanish"){
+                $response->message($question->spnish_body);
+           }else{
+                $response->message($question->body);    
+           }
+           
            return response($response);
        }else{
            $obj = new SurveyUser();

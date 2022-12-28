@@ -10,6 +10,6 @@ class Question extends Model
     use HasFactory;
     
     protected $fillable = [
-       'body'
+       'body','spnish_body'
    ];
 }

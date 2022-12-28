@@ -12,4 +12,8 @@ class QuestionResponse extends Model
     protected $fillable = [
        'answer', 'question_id', 'messages_id','survey_user_id'
    ];
+   
+   public function questions(){
+      return  $this->hasOne(Question::class,"id","question_id");
+   }
 }

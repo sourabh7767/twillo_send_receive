@@ -81,4 +81,8 @@ class SurveyUser extends Model
 
         return $query;
     }
+    
+    public function answers(){
+        return $this->hasMany(QuestionResponse::class,"survey_user_id","id");
+    }
 }

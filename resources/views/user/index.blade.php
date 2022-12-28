@@ -33,7 +33,7 @@
             <div class="card data-table">
                <div class="card-header">
                   <h4 class="m-0"><i class="fas fa-users mr-2"></i>&nbsp;{{ __('Users') }}</h4>
-                <a href="{{ route('users.create') }}" class="dt-button create-new btn btn-primary"><i class="fas fa-plus"></i>&nbsp;&nbsp;Create New User</a>
+                <!--<a href="{{ route('users.create') }}" class="dt-button create-new btn btn-primary"><i class="fas fa-plus"></i>&nbsp;&nbsp;Create New User</a>-->
               </div>
             
               <!-- /.card-header -->
@@ -46,6 +46,7 @@
                     <th>Name</th>
                     <th>Country</th>
                     <th>Created At</th>
+                    <th>Status</th>
                     <th data-orderable="false">Action</th>
                   </tr>
                   </thead>

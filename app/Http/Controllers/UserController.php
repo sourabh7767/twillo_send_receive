@@ -43,6 +43,17 @@ class UserController extends Controller
                 ->addColumn('created_at', function ($user) {
                     return $user->created_at;
                 })
+                ->addColumn('status', function ($user) {
+                    if($user->currnet_question == 1){
+                        return "Started";
+                    }elseif($user->currnet_question > 1 && $user->currnet_question < 9){
+                        return "In progress";
+                    }elseif($user->currnet_question == 9){
+                        return "Accepted";
+                    }elseif($user->currnet_question == 10){
+                        return "Rejected";
+                    }
+                })
 
                 ->addColumn('action', function ($user) {
                 $btn = '';
@@ -53,8 +64,8 @@ class UserController extends Controller
                 return $btn;
             })
                 ->rawColumns([
+                    'status',
                 'action',
-              //  'status'
             ])->setTotalRecords($totalUsers)->setFilteredRecords($setFilteredRecords)->skipPaging()
                 ->make(true);
         }
@@ -105,7 +116,8 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $model = User::find(decrypt($id));
+         $model = SurveyUser::with('answers','answers.questions')->where("id",decrypt($id))->first();
+        // echo "<pre>";print_r($model->toArray());die;
         return view('user.view',compact("model"));
     }
 
