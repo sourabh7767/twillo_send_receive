@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Models\SurveyUser;
 class HomeController extends Controller
 {
     /**
@@ -24,9 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = User::where('created_by','!=', 0)->count();
+        //$users = User::where('created_by','!=', 0)->count();
         $data = User::getActiveInactiveCount();
         $monthlys = User::monthly();
+        $users = SurveyUser::count();
         return view('home',compact("users","data","monthlys"));
     }
 }

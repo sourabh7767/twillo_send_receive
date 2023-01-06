@@ -88,7 +88,7 @@
                                         </g>
                                     </g>
                                 </svg>
-                                <h2 class="brand-text text-primary ms-1">Vuexy</h2>
+                                <h2 class="brand-text text-primary ms-1">Survey App</h2>
                             </a>
                             <!-- /Brand logo-->
                             <!-- Left Text-->

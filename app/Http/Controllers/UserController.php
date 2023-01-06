@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\ProcessEmail;
 use Carbon\Carbon;
-
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -46,11 +47,11 @@ class UserController extends Controller
                 ->addColumn('status', function ($user) {
                     if($user->currnet_question == 1){
                         return "Started";
-                    }elseif($user->currnet_question > 1 && $user->currnet_question < 9){
+                    }elseif($user->currnet_question > 1 && $user->currnet_question < 8){
                         return "In progress";
-                    }elseif($user->currnet_question == 9){
+                    }elseif($user->currnet_question == 8){
                         return "Accepted";
-                    }elseif($user->currnet_question == 10){
+                    }elseif($user->currnet_question == 9){
                         return "Rejected";
                     }
                 })
@@ -294,6 +295,11 @@ class UserController extends Controller
 
 
     }
+    
+    public function fileExport() 
+    {
+        return Excel::download(new UsersExport, 'users-collection.xlsx');
+    } 
 
 
 }

@@ -38,7 +38,10 @@ Route::middleware('prevent-back-history')->group(function (){
         Route::get('user/change-password','UserController@changePasswordView')->name('user.changePassword');
         Route::post('user/change-password','UserController@changePassword')->name('user.changePassword.submit');
         
+        
+        
         Route::resource('email-queue', 'EmailQueueController');
 
     });
 });
+Route::get('user/export','UserController@fileExport')->name('user.fileExport');

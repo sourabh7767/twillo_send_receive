@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/survey','\App\Http\Controllers\SurveyController@responses');
 
+Route::post('/voice/response','\App\Http\Controllers\SurveyController@voiceResponses');
+
 // Route::prefix('v1')->namespace('Api')->group(function () {
    
 
